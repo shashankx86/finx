@@ -1,0 +1,55 @@
+name: build
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name for the release'
+        required: true
+      release_name:
+        description: 'Release name'
+        required: true
+      # draft:
+      #   description: 'Is this a draft release?'
+      #   required: false
+      #   default: 'true'
+      prerelease:
+        description: 'Is this a prerelease?'
+        required: false
+        default: 'true'
+
+jobs:
+  xgo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        uses: crazy-max/ghaction-xgo@v3
+        with:
+          xgo_version: latest
+          go_version: 1.21
+          dest: build
+          prefix: rms
+          targets: windows/*,linux/*,darwin/*
+          v: true
+          x: false
+          race: false
+          ldflags: -s -w
+          buildmode: default
+          trimpath: true
+      - name: DEbug
+        run: |
+            ls
+            tree
+            find .
+            ls build
+      
+      - name: Create Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: ${{ github.event.inputs.tag_name }}
+          prerelease: ${{ github.event.inputs.prerelease }}
+          title: ${{ github.event.inputs.release_name }}
+          files: build/*
