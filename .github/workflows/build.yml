@@ -30,7 +30,7 @@ jobs:
           xgo_version: latest
           go_version: 1.21
           dest: build
-          prefix: rms
+          prefix: finx
           targets: windows/*,linux/*,darwin/*
           v: true
           x: false
