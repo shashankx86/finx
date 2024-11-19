@@ -2,23 +2,47 @@
 
 `finx` is an advanced find utility written in Go. 
 
+## Index
+1. [Features](#features)
+2. [Installation](#installation)
+   - [Via Bash Script](#via-bash-script)
+   - [Manual Installation](#manual-installation)
+3. [Usage](#usage)
+   - [Basic Syntax](#basic-syntax)
+   - [Positional Arguments](#positional-arguments)
+   - [Flags](#flags)
+   - [Example Usage](#example-usage)
+4. [Flags Explained](#flags-explained)
+5. [License](#license)
+6. [Contributing](#contributing)
+
 ## Features
 
 - **Type Filtering**
 - **Max Depth**
-- **more comming soon...**
+- **more coming soon...**
   
 ## Installation
 
-To install `finx`, follow the steps below:
+### Via Bash Script
 
-### 1. Clone the repository
+You can install `finx` easily on Linux by running the following command:
+
+```bash
+curl -s https://raw.githubusercontent.com/shashankx86/finx/refs/heads/main/install.sh | bash
+```
+
+This script will download, and install `finx` on your system.
+
+### Manual Installation
+
+#### 1. Clone the repository
 
 ```bash
 git clone https://github.com/shashankx86/finx.git
 ```
 
-### 2. Build the project
+#### 2. Build the project
 
 Navigate to the project folder and build the executable:
 
@@ -27,7 +51,7 @@ cd finx
 go build -o finx ./cmd
 ```
 
-### 3. Run the program
+#### 3. Run the program
 
 After building the binary, you can run it using:
 
