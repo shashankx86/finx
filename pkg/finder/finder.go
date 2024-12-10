@@ -11,11 +11,12 @@ import (
 
 // Options for searching
 type Options struct {
-	Type     string // 'f' for files, 'd' for directories
-	MaxDepth int    // Maximum depth to search
-	Verbose  bool   // Verbose output
-	MinSize  int64  // Minimum file size in bytes
-	MaxSize  int64  // Maximum file size in bytes
+	Type       string      // 'f' for files, 'd' for directories
+	MaxDepth   int         // Maximum depth to search
+	Verbose    bool        // Verbose output
+	MinSize    int64       // Minimum file size in bytes
+	MaxSize    int64       // Maximum file size in bytes
+	Perms      os.FileMode // File permissions to match
 }
 
 // FindFiles searches for files and directories based on the given pattern and options.
