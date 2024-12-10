@@ -17,6 +17,10 @@ func main() {
 	typeFlag := flag.String("type", "", "Type of search: 'f' for files, 'd' for directories")
 	maxDepthFlag := flag.Int("maxdepth", -1, "Maximum depth to search (e.g., -maxdepth 2)")
 	verboseFlag := flag.Bool("v", false, "Enable verbose output")
+	
+	// Add new size filter flags
+	minSizeFlag := flag.Int64("minsize", 0, "Minimum file size in bytes")
+	maxSizeFlag := flag.Int64("maxsize", 0, "Maximum file size in bytes")
 
 	// Parse flags
 	flag.Parse()
@@ -42,6 +46,8 @@ func main() {
 		Type:     *typeFlag,
 		MaxDepth: *maxDepthFlag,
 		Verbose:  *verboseFlag,
+		MinSize:  *minSizeFlag,
+		MaxSize:  *maxSizeFlag,
 	}
 	results := finder.FindFiles(path, pattern, options)
 
@@ -66,9 +72,13 @@ func printUsage() {
     fmt.Println("  -type       Type of search: 'f' for files, 'd' for directories")
     fmt.Println("  -maxdepth   Maximum depth to search (e.g., -maxdepth 2)")
     fmt.Println("  -v          Enable verbose output")
+    fmt.Println("  -minsize    Minimum file size in bytes")
+    fmt.Println("  -maxsize    Maximum file size in bytes")
     fmt.Println("\nExamples:")
-    fmt.Println("  ./finx . \"*.go\"                     # Find all Go files")
+    fmt.Println("  ./finx . \"*.go\"                      # Find all Go files")
     fmt.Println("  ./finx . \"^test.*\\.go$\"            # Find Go files starting with 'test'")
     fmt.Println("  ./finx . \".*_test\\.go$\"            # Find Go test files")
     fmt.Println("  ./finx . \"*.txt\" -type f -maxdepth 2")
+    fmt.Println("  ./finx . \"*.log\" -minsize 1024      # Find log files at least 1KB in size")
+    fmt.Println("  ./finx . \"*.txt\" -maxsize 10240     # Find text files under 10KB")
 }

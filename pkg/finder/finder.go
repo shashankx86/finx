@@ -14,12 +14,13 @@ type Options struct {
 	Type     string // 'f' for files, 'd' for directories
 	MaxDepth int    // Maximum depth to search
 	Verbose  bool   // Verbose output
+	MinSize  int64  // Minimum file size in bytes
+	MaxSize  int64  // Maximum file size in bytes
 }
 
 // FindFiles searches for files and directories based on the given pattern and options.
 func FindFiles(root, pattern string, opts Options) []string {
 	var results []string
-	// currentDepth := 0
 
 	// Walk function with depth control
 	var walkFn filepath.WalkFunc = func(path string, info os.FileInfo, err error) error {
@@ -44,6 +45,27 @@ func FindFiles(root, pattern string, opts Options) []string {
 		}
 		if opts.Type == "d" && !info.IsDir() {
 			return nil
+		}
+
+		// Size filtering (only for files)
+		if !info.IsDir() {
+			size := info.Size()
+
+			// Only apply minSize filter if minSize is positive
+			if opts.MinSize > 0 && size < opts.MinSize {
+				if opts.Verbose {
+					fmt.Printf("Skipping %s: size %d < minimum %d\n", path, size, opts.MinSize)
+				}
+				return nil
+			}
+
+			// Only apply maxSize filter if maxSize is positive
+			if opts.MaxSize > 0 && size > opts.MaxSize {
+				if opts.Verbose {
+					fmt.Printf("Skipping %s: size %d > maximum %d\n", path, size, opts.MaxSize)
+				}
+				return nil
+			}
 		}
 
 		// Match pattern
